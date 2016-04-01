@@ -1,0 +1,62 @@
+<div ng-controller="BookListCtrl" class="container catalog ng-cloak">
+            <div class="row">
+                <div class="col-md-10">
+
+                    <h3 class="pull-left">Каталог книг</h3>
+
+                    <a href="#/bookForm" class="btn btn-primary h3 pull-right">Добавить книгу</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <input ng-model="search" ng-change="searchInBD()" type="search" class="form-control" placeholder="Поиск (минимум 3 символа)">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <p class="">Сортировка:
+                        <button ng-click="nameSort()" type="button" class="btn btn-link">
+                        Название <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                        </button>
+                        <button ng-click="authorSort()" type="button" class="btn btn-link">
+                        Автор <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <div class="row ">
+                <div ng-if="books.length == 0" class="col-md-10">Книги не найдены</div>
+                <div class="col-md-5" ng-repeat="book in books">
+                    <div class="book-preview">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <img ng-if="book.cover" width="90" src="{{book.cover}}" alt="..." class="img-rounded">
+                            </div>
+                            <div class="col-xs-9">
+                                <h5>{{book.name}}</h5>
+                                <p><span>Автор:</span> <span>{{book.author}}</span> <br>
+                                <span>Год издания:</span> <span ng-if="book.year > 0">{{book.year}}</span>
+                                <span ng-if="book.year == 0">неизвестен</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-10 ">
+                <div class="pull-right">
+
+                    <uib-pagination ng-change="refresh()" items-per-page="numPerPage" boundary-links="true" max-size="paginMaxSize" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+
+
+                </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="preloader">
+
+        </div>

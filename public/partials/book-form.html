@@ -1,0 +1,39 @@
+<div class="container" ng-controller="BookFormCtrl">
+	<div class="row">
+	    <div class="col-md-6 col-md-offest-3">
+
+	        <h3 class=""><a href="#/bookList">Каталог книг</a> > Добавление/Редактирование</h3>
+
+
+	    </div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offest-3">
+			<form>
+				<div class="form-group">
+					<label for="name">Название книги*</label>
+					<input type="text" class="form-control" id="name" required maxlength="150">
+				</div>
+				<div class="form-group">
+					<label for="author">Автор*</label>
+					<input type="text" class="form-control" id="author" required maxlength="100">
+				</div>
+				<div class="form-group">
+					<label for="year">Год издания</label>
+					<input  type="number" min="0" class="form-control" id="year">
+				</div>
+				<div class="form-group">
+					<label for="description">Описание*</label>
+					<input  type="text" class="form-control" id="description" required maxlength="2000">
+				</div>
+				<div class="form-group">
+					<label for="cover">Обложка</label>
+					<input type="file" accept="image/gif, image/jpeg, image/png, image/jpg" id="cover">
+				</div>
+
+				<button type="submit" class="btn btn-primary">Сохранить</button>
+				<button type="reset" class="btn btn-danger">Очистить</button>
+			</form>
+		</div>
+	</div>
+</div>

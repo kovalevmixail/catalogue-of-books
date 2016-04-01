@@ -1,0 +1,30 @@
+.catalog > .row {
+	margin-bottom: 5px;
+}
+
+.book-preview {
+	height: 110px;
+    padding: 9px;
+    border: 1px solid #C1C1C1;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.book-preview:hover {
+	box-shadow: 1px 1px 10px black;
+	cursor: pointer;
+}
+
+.preloader {
+	display: none;
+	background: url(../img/preloader.gif) no-repeat 45%;
+	height: 100px;
+}
+
+/*.ng-cloak {
+  display: none !important;
+}*/
+.ng-cloak + .preloader {
+	display: block;
+}
