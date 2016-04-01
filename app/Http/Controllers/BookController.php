@@ -26,14 +26,6 @@ class BookController extends Controller
         }
     }
 
-    2. Получение детальной информации о выбранной книге
-    {
-        "action" : "details",
-        "params" : {
-            "id" : %число%
-        }
-    }
-
     ....
     */
 
@@ -71,6 +63,8 @@ class BookController extends Controller
                 $answer = Book::getBookList($correctParams);
                 break;
 
+        /* Не реализованно
+
             case 'details':
                 $answer = (new Book)->find($q['params']['id']);
                 break;
@@ -87,17 +81,14 @@ class BookController extends Controller
             case 'delete':
                 $answer = (new Book)->find($q['params']['id'])->delete();
                 break;
-
+            */
             default:
                 return abort(404, 'неправильный запрос');
                 break;
         }
 
-
-
         return response()->json($answer);
     }
-
 
 
     //$p (params)
