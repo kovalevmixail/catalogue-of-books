@@ -4,21 +4,31 @@
 
 var catalogueOfBooksApp = angular.module('catalogueOfBooksApp', [
   'ngRoute',
-  'catalogueOfBooksControllers'
+  'catalogueOfBooksControllers',
+    'catalogueOfBooksServices'
 ]);
+
+
+
 
 catalogueOfBooksApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/boolList', {
+      when('/bookList', {
         templateUrl: 'partials/book-list.html',
         controller: 'BookListCtrl'
       }).
-      when('/bookForm', {
+      when('/bookForm/:bookid?', {
         templateUrl: 'partials/book-form.html',
         controller: 'BookFormCtrl'
       }).
+    when('/bookInfo/:bookid', {
+        templateUrl: 'partials/book-info.html',
+        controller: 'BookInfoCtrl'
+    }).
       otherwise({
-        redirectTo: '/boolList'
+        redirectTo: '/bookList'
       });
   }]);
+
+

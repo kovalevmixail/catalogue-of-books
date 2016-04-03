@@ -1,39 +1,61 @@
-<div class="container" ng-controller="BookFormCtrl">
+<div class="container">
 	<div class="row">
 	    <div class="col-md-6 col-md-offest-3">
 
 	        <h3 class=""><a href="#/bookList">Каталог книг</a> > Добавление/Редактирование</h3>
 
-
 	    </div>
 	</div>
 	<div class="row">
 		<div class="col-md-6 col-md-offest-3">
-			<form>
+			<form ng-submit="sendBook()">
 				<div class="form-group">
 					<label for="name">Название книги*</label>
-					<input type="text" class="form-control" id="name" required maxlength="150">
+					<input type="text" class="form-control" id="name" ng-model="book.name" required maxlength="150">
+					<span ng-if="errors.name.length > 0">
+					    <span ng-repeat="err in errors.name" class="block text-danger">{{err}}</span>
+					</span>
 				</div>
 				<div class="form-group">
 					<label for="author">Автор*</label>
-					<input type="text" class="form-control" id="author" required maxlength="100">
+					<input type="text" class="form-control" ng-model="book.author" id="author" required maxlength="100">
+					<span ng-if="errors.author.length > 0">
+					    <span ng-repeat="err in errors.author" class="block text-danger">{{err}}</span>
+					</span>
 				</div>
 				<div class="form-group">
 					<label for="year">Год издания</label>
-					<input  type="number" min="0" class="form-control" id="year">
+					<input  type="number" min="0" class="form-control" ng-model="book.year" id="year">
+					<span ng-if="errors.year.length > 0">
+					    <span ng-repeat="err in errors.year" class="block text-danger">{{err}}</span>
+					</span>
 				</div>
 				<div class="form-group">
 					<label for="description">Описание*</label>
-					<input  type="text" class="form-control" id="description" required maxlength="2000">
+                    <textarea  class="form-control" id="description" ng-model="book.description" required maxlength="2000"></textarea>
+					<span ng-if="errors.description.length > 0">
+					    <span ng-repeat="err in errors.description" class="block text-danger">{{err}}</span>
+					</span>
 				</div>
 				<div class="form-group">
-					<label for="cover">Обложка</label>
-					<input type="file" accept="image/gif, image/jpeg, image/png, image/jpg" id="cover">
-				</div>
+					<label id="cover-lbl" for="cover">Обложка</label>
+					<div id="cover-preview">
+					    <img ng-if="book.coverStr " ng-src="{{book.coverStr}}" class="thumb-form" >
+					</div>
 
+					<input type="file" id="cover" onchange="angular.element(this).scope().uploadedFile(this)" accept="image/*">
+					<span ng-if="errors.cover.length > 0">
+					    <span ng-repeat="err in errors.cover" class="block text-danger">{{err}}</span>
+					</span>
+
+				</div>
 				<button type="submit" class="btn btn-primary">Сохранить</button>
 				<button type="reset" class="btn btn-danger">Очистить</button>
 			</form>
+							<p class="text-danger">* - Поля обязательные для заполнения</p>
+
 		</div>
 	</div>
 </div>
+
+<!-- ng-change="book.file = this" -->

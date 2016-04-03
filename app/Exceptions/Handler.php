@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Response;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -45,6 +46,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        // if ($request->ajax() || $request->wantsJson()) {
+        //     return new JsonResponse($e->getMessage(), 422);
+        // }
+
+        if ( $request->isXmlHttpRequest() || $request->ajax() || $request->wantsJson()) {
+                    return Response::json( [
+                        'error' => [
+                            'exception' => class_basename( $e ) . ' in ' . basename( $e->getFile() ) . ' line ' . $e->getLine() . ': ' . $e->getMessage(),
+                        ]
+                    ], 500 );
+                }
+        // Log::info($e);
         return parent::render($request, $e);
     }
 }

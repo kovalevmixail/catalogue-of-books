@@ -26,6 +26,27 @@ class BookController extends Controller
         }
     }
 
+    2. Получение детальной информации о выбранной книге/удаление
+    {
+        "action" : "details" | "delete",
+        "params" : {
+            "id" : %число%
+        }
+    }
+
+    3. Добавление / редактирование книги
+    {
+        "action" : "save",
+        "params" : {
+            "id" : %число% | "",
+            "name" : %string%,
+            "author" : %string%,
+            "year" : %nubmer% | "",
+            "description" : %string%,
+            "cover" : %image(file)%
+        }
+    }
+
     ....
     */
 
@@ -50,12 +71,53 @@ class BookController extends Controller
         ]
    ];
 
+    public function save(Request $request)
+    {
+        $errors = $this->validateBook($request);
+        if ($errors != null )
+            return response()->json($errors, 500);
+
+        if ($request->input('id') != null)
+            $book = Book::find($request->input('id'));
+        else
+            $book = new Book();
+
+        $book->name = $request->input('name');
+        $book->author = $request->input('author');
+        $book->year = $request->input('year');
+        $book->description = $request->input('description');
+
+        $book->save();
+
+        if ($request->hasFile('cover'))
+        {
+            $imageName = $book->id . '.' .
+                $request->file('cover')->extension();
+
+            $request->file('cover')->move(
+                base_path() . '/public/images/covers/', $imageName
+            );
+
+            $book->cover = '/images/covers/' + $imageName;
+            $book->save();
+        }
+
+
+        return $book->id;
+
+    }
+
     public function index(Request $request)
     {
+
         $q = json_decode($request->input('q'), true);
         if ($q == null) {
-            return abort(404, 'неправильный запрос');
+            return response()->json('отсутствует параметр q', 404);
         }
+        if (!isset($q['action']) )
+            return response()->json('отсутствует параметр action', 404);
+
+        $answer = ''; $status = 200;
 
         switch ($q['action']) {
             case 'list':
@@ -63,33 +125,53 @@ class BookController extends Controller
                 $answer = Book::getBookList($correctParams);
                 break;
 
-        /* Не реализованно
-
             case 'details':
+                $answer = $this->validateBookId($q['params']);
+                if ($answer != null ) {
+                    $status = 404;
+                    break;
+                }
+
                 $answer = (new Book)->find($q['params']['id']);
                 break;
 
-            case 'save':
-                $book = new Book();
-                foreach ($q['params'] as $key => $value) {
-                    $book->{$key} = $value;
-                }
-                $book = $this->validateBook($book);
-                $answer = $book->save();
-                break;
-
             case 'delete':
+                 $answer = $this->validateBookId($q['params']);
+                if ($answer != null ) {
+                    $status = 404;
+                    break;
+                }
+
                 $answer = (new Book)->find($q['params']['id'])->delete();
                 break;
-            */
+
             default:
-                return abort(404, 'неправильный запрос');
+                return response()->json('неправильный параметр action', 404);
                 break;
         }
 
-        return response()->json($answer);
+        return response()->json($answer, $status);
     }
 
+
+    protected function validateBook($req) {
+        $maxYear = date('Y') + 10; //Запас на 10 лет вперед (вдруг книга только планируется выйти)
+        $rules = [
+            'id' => 'exists:books,id',
+            'name' => 'required|string|max:150',
+            'author' => 'required|string|max:100',
+            'year' => "integer|between:0,$maxYear",
+            'description' => 'required|string|max:2000',
+            'cover' => 'image|max:500'
+        ];
+
+        $validator = Validator::make($req->all(), $rules);
+
+        if ($validator->fails())
+            return $validator->errors()->toArray();
+        else
+            return null;
+    }
 
     //$p (params)
     //$c (config)
@@ -142,22 +224,18 @@ class BookController extends Controller
 
     }
 
-    /*
-    protected function validateBook($book) {
-        $maxYear = date('Y') + 10; //Запас на 10 лет вперед (вдруг книга только планируется выйти)
-        $rules = [
-            'id' => 'exists:books,id',
-            'name' => 'required|string|max:150',
-            'author' => 'required|string|max:100',
-            'year' => "integer|between:0,$maxYear",
-            'description' => 'required|string|max:2000',
-            'cover' => 'image|size:500'
-        ];
+      protected function validateBookId($params) {
+         $maxYear = date('Y') + 10; //Запас на 10 лет вперед (вдруг книга только планируется выйти)
+         $rules = [
+             'id' => 'required|integer|exists:books,id',
+         ];
+         $validator = Validator::make($params, $rules);
 
-        $validator = Validator::make($book, $rules);
+        if ($validator->fails())
+            return $validator->errors()->all();
+        else
+            return null;
+     }
 
-        dd($validator);
-        return;
-    }
-    */
+
 }

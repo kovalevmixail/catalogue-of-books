@@ -1,0 +1,34 @@
+<div class="container">
+
+    <div class="row ng-cloak">
+        <div class="col-md-10 col-md-offset-1">
+
+            <h3 class=""><a href="#/bookList">Каталог книг</a> > Книга {{book.name}} (id {{book.id}})</h3>
+
+        </div>
+    </div>
+    <div class="row ng-cloak">
+
+        <div class="col-md-10 col-md-offset-1">
+            <span ng-if="errors.length > 0">
+				<span ng-repeat="err in errors" class="block text-danger">{{err}}</span>
+            </span>
+            <div ng-if="errors.length == 0" class="row">
+                <div class="col-xs-4">
+                    <img class="block" style="max-width:100%; margin:20px 0 10px" ng-if="book.cover" ng-src="{{book.cover}}" alt="">
+                    <a ng-href="#/bookForm/{{book.id}}" class="btn btn-primary">Редактировать</a>
+                    <button ng-click="delete()" class="btn btn-danger">Удалить</button>
+                </div>
+                <div class="col-xs-8">
+                    <h3>{{book.name}}</h3>
+                    <p><span>Автор:</span> <span>{{book.author}}</span>
+                        <br>
+                        <span>Год издания:</span> <span ng-if="book.year > 0">{{book.year}}</span>
+                        <span ng-if="book.year == 0">неизвестен</span>
+                    </p>
+                    <p>Описание: {{book.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

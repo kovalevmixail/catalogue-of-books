@@ -28,3 +28,17 @@
 .ng-cloak + .preloader {
 	display: block;
 }
+
+.block {
+	display: block;
+}
+
+img.thumb {
+    width: 90px;
+}
+
+img.thumb-form {
+    max-width: 200px;
+     margin:10px 0;
+    display: block;
+}

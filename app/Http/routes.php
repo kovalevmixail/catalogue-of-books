@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('/book', 'BookController@index');
 Route::post('/book', 'BookController@index');
+Route::post('/book/save', 'BookController@save');
 
 
 // Route::resource('/book', 'BookController', ['except' => [

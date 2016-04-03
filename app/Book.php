@@ -32,7 +32,7 @@ class Book extends Model
 
     public static function fullTextSearch($query) {
         return self::
-            whereRaw("MATCH(name,author) AGAINST('$query*' IN BOOLEAN MODE)");
+            whereRaw("MATCH(name,author) AGAINST('$query* $query' IN BOOLEAN MODE)");
     }
 
     public static function getPageCountInSearchResult($searchQuery, $booksOnPage) {
