@@ -1,27 +1,30 @@
-# Laravel PHP Framework
+## Описание
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Необходимо реализовать одностраничное приложение, позволяющее вести домашний каталог книг. Приложение должно поддерживать следующие возможности:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+  * Просмотр списка книг с возможностью поиска и сортировки по названию и автору
+  * Просмотр детальной информации о выбранной книге
+  * Добавление новых и редактирование уже существующих книг
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Требование к серверной части
 
-## Official Documentation
+На серверной стороне должно быть реализовано REST API на одном из знакомых framework'ов (Symfony 2, Zend Framework 2, Laravel  и т.д.). В качестве формата запросов и ответов  должен быть использован JSON.  API должен поддерживать следующие запросы:
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+  * Получение списка книг, зарегистрированных в домашней библиотеке. Должна поддерживаться возможность постраничного получения данных, сортировки и  поиска записей по названию и автору
+  * Получение детальной информации о выбранной книге
+  * Добавление новой книги.  На поля накладываются следующие ограничения:
+   1. Название — строка, обязательное, макс. 150 символов
+   2. Автор — строка, обязательно, макс. 100 символов
+   3. Год издания — число,  необязательно
+   4. Описание — строка, обязательно, макс. 2000 символов
+   5. Обложка — изображение в формате jpg/jpeg, png, gif. Макс. размер файла 500Kb
+  * Редактирование существующей книги
+  * Удаление книги из каталога
+   
+## Требование к клиентской части
 
-## Contributing
+На клиентской стороне должно быть реализовано одностраничное приложение с использованием AngularJS. К клиентской части предъявляются следующие требования:
+  * На странице со списком книг, поиск книг осуществляется путем отправки запроса на серверную часть. Во время ожидания ответа от API должен отображаться индикатор загрузки данных.
+  * На странице добавления/редактирования книги, валидация всех полей должна проводиться как на серверной, так и на клиентской стороне. Сообщения о не корректных данных должны отображаться под соответствующим полем. До тех пор пока хотя бы одно поле содержит некорректные данные, кнопка сохранения должна быть заблокированной.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Не нужно тратить много времени на визуальное оформление приложения. Будет достаточно схематичного вида.
